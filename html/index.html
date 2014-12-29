@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JS Bin</title>
+<meta charset="utf-8">
+<script type="text/javascript" src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script> 
+  
+</head>
+<body>
+<h2>数据库列表</h2>
+<form method="post" id="sub">
+  <h3>请选择要映射生成的tables</h3>
+  <table>
+    <tr>
+      <td>选择</td>
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+      <td>表名</td>
+    </tr>
+    <tr id='tbdata'></tr>
+  </table>
+</form>
+
+<script type="text/javascript">
+  var ip = "http://192.168.2.114:8000";
+
+  $(function(){
+
+    //get all tablesname of pgsql
+    $.get(ip+'/select', '',function(r){
+       var startTag = '';
+       for(var i=0; i<r.length; i++){
+            startTag += '<tr><td><input name="tb1" type="checkbox" value="'+ i+'" /></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ r[i]["relname"] +'</td></tr>';  
+       }
+     $("#tbdata").replaceWith(startTag);
+
+    }
+    ,'json');
+
+  })
+</script>
+
+</body>
+</html>

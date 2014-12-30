@@ -10,9 +10,10 @@ handle["/"] = func.select;
 handle["/select"] = func.select;
 handle["/download"] = func.download;
 handle["/index"] = func.index;
+handle["/creatf"] = func.creatf;
 
-var constring = "postgres://postgres:1234@localhost:5432/test";
-//var constring = "postgres://postgres:postgres@192.168.1.104:5432/basedb";
+//var constring = "postgres://postgres:1234@localhost:5432/test";
+var constring = "postgres://postgres:postgres@192.168.1.104:5432/basedb";
 //var constring = "postgres://postgres:postgres@58.246.146.186:5432/basedb";
 var client = new pg.Client(constring);
 client.connect(function(error, results){

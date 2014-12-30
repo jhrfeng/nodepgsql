@@ -5,7 +5,28 @@
   <title>JS Bin</title>
 <meta charset="utf-8">
 <script type="text/javascript" src="http://cdn.staticfile.org/jquery/1.9.1/jquery.min.js"></script> 
-  
+<script type="text/javascript" src="http://malsup.github.com/jquery.form.js"></script> 
+<script type="text/javascript" src="http://www.w3school.com.cn/jquery/jquery.js"></script>
+<style id="jsbin-css">
+
+table{
+  margin: 50px 0 0 150px;
+  border-bottom-right-radius: 5px;
+  border: 1px solid #a6c9e2;
+  background: #fcfdfd 50% bottom repeat-x;
+  color: #222;
+  cursor: pointer;
+}
+
+table td{
+  border: 1px solid #a6c9e2;
+  background: #fcfdfd 50% bottom repeat-x;
+
+  padding: 8px;
+  font-size: 13px;
+}
+
+</style>
 </head>
 <body>
 <h2>数据库列表</h2>
@@ -14,15 +35,17 @@
   <table>
     <tr>
       <td>选择</td>
-      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-      <td>表名</td>
+      <td align="center">表名</td>
+       <td>请输入要生成的包路径（模块下）【例如：com.n22.customer】</td>
     </tr>
     <tr id='tbdata'></tr>
+
+    <tr><td colspan="3" align="center"><input type="button" value="生成配置文件" onclick="generatefile();" /></td></tr>
   </table>
 </form>
 
 <script type="text/javascript">
-  var ip = "http://192.168.2.114:8000";
+  var ip = "http://192.168.7.127:8000";
 
   $(function(){
 
@@ -30,7 +53,7 @@
     $.get(ip+'/select', '',function(r){
        var startTag = '';
        for(var i=0; i<r.length; i++){
-            startTag += '<tr><td><input name="tb1" type="checkbox" value="'+ i+'" /></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>'+ r[i]["relname"] +'</td></tr>';  
+            startTag += '<tr><td><input name="tb'+ i +'" type="checkbox" value="'+r[i]["relname"]+'" /></td><td>'+ r[i]["relname"] +'</td><td align="center"><input name="'+r[i]["relname"]+'" type="text"  style="width:250px;" /></td></tr>';  
        }
      $("#tbdata").replaceWith(startTag);
 
@@ -38,6 +61,34 @@
     ,'json');
 
   })
+
+  //genenrate files and auto download those files;
+  function generatefile(){ 
+    var url = ip + '/creatf';
+    var data = $("#sub").serializeArray();
+
+    $.post(url, data, function(r){
+        console.log(r);
+    }
+    ,'json');
+    
+    /*$('#sub').ajaxSubmit({
+      url: url,
+      type:'post',
+      dataType:'json',
+      beforeSerialize:function(){
+        //you can modify some input values before group send from data
+      },
+      beforeSubmit:function(){
+        //you can validate form here
+      },
+      success:function(data){
+        console.log(data);
+      }
+    })*/
+
+  }
+
 </script>
 
 </body>

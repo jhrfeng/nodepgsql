@@ -1,4 +1,4 @@
-function route(client,result, handle, pathname, response){
+function route(client,result, handle, pathname, request, response){
 	console.log("About a to route a request for "+ pathname);
     // Website you wish to allow to connect
   //  response.setHeader('Access-Control-Allow-Origin', 'http://192.168.2.114:8000');
@@ -17,9 +17,9 @@ function route(client,result, handle, pathname, response){
 	if(typeof handle[pathname] === 'function'){
 		console.log('pathname is '+ pathname);
 		if(pathname == '/download'){
-			handle[pathname]('d:/test/test1.txt', response);
+			handle[pathname]('d:/test/test1.txt',response);
 		}else{
-			handle[pathname](client,result, response);
+			handle[pathname](client,result, request, response);
 		}
 		
 	}else{

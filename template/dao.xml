@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${namespace}">
+	<insert id="insertEtlLog" parameterType="cn.springmvc.etl.model.EtlLog" keyProperty="id">
+    	insert into ${tablename}( ${cloumns} ) 
+         values 
+         (        
+         ${values}
+         )
+	</insert>
+         
+   
+    <insert id="insertUser_target" parameterType="cn.springmvc.etl.model.Days_systemuser_client" keyProperty="id">
+         insert into days_systemuser_client(
+         id, 
+         device_type,
+         device_num,
+         create_time,
+         last_time,
+         state,
+         nickname) 
+         values 
+         (   
+         #{id},     
+         #{device_type},
+         #{device_num},
+         #{create_time},
+         #{last_time},
+         #{state},
+         #{nickname})
+    </insert>
+    
+    <update id="updateUser_target" parameterType="cn.springmvc.etl.model.Days_systemuser_client">
+         update days_systemuser_client set
+         id = #{id}, 
+         device_type = #{device_type},
+         device_num= #{device_num},
+         create_time= #{create_time},
+         last_time= #{last_time},
+         state= #{state},
+         nickname= #{nickname}
+		 where id=#{id}
+    </update>
+    
+    <select id="getUser_targetById" parameterType="java.lang.Integer" resultType="cn.springmvc.etl.model.Days_systemuser_client">
+         select * from days_systemuser_client where id = #{id}
+    </select>
+</mapper>

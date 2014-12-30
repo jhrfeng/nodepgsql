@@ -1,11 +1,12 @@
 var mime = require('mime');
 var http = require('http');
 var fs = require('fs');
+var qs = require('querystring');
 var loadfile = require('./loadfile');
 var crefile = require('./crefile')
 //var mime = require('./mime').mime;
 
-function select(client,result, response)
+function select(client,result, request, response)
 {
 	client.query('select relname from pg_stat_user_tables;', function(error, results){
 	 // client.query('select * from days_etl_log;', function(error, results){
@@ -67,7 +68,7 @@ function download(filenamedir, res){
   })
 }
 
-function index(client, result, res){
+function index(client, result, req, res){
 	fs.readFile('./html/index.html', function(err, html){
 		if(err){ throw err;}
 		res.writeHeader(200, {"Content-Type": "text/html"});
@@ -77,10 +78,37 @@ function index(client, result, res){
 }
 
 //this creatf function name is create_tables_file
-function creatf(result, recivied){
+function creatf(client, result, req, res){
+    var POST_TB = {};
+    var POST_PACKAGE = {};
+    if (req.method == 'POST') {
+        req.on('data', function(data){
+          data = data.toString();
+          data = data.split('&');
+          var regExp = /tb([0-9]+)/;
+          var tb_index = 0;
+          for(var i=0; i <data.length; i++){
+            var _data = data[i].split("=");
+            var res = regExp.test(_data[0]);
+            if(false == res){
+               POST_PACKAGE[_data[0]] = _data[1];
+            }else{
+               POST_TB[parseInt(tb_index++)] = _data[1];           
+            }                          
+          }
+          crefile.createFile(POST_TB, POST_PACKAGE, client);           
+        });
+    
+        req.on('end', function () {
+          console.log("handle is end ..................");
+           
+        });
+       
+    }
 
 }
 
 exports.select = select;
 exports.download = download;
 exports.index = index;
+exports.creatf = creatf;

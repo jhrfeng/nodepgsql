@@ -17,7 +17,7 @@ var dictionary = (function () {
             return map[key]||'';
         },
         save2File: function () {
-            fs.writeFile(this.logPath, JSON.stringify(map).replace(/","/g,'",\r\n"'),{encoding:'utf8',flag:'w'}, function (err) {
+            fs.writeFile(this.logPath, JSON.stringify(map). (/","/g,'",\r\n"'),{encoding:'utf8',flag:'w'}, function (err) {
                 if (err) throw err;
             }); 
         },

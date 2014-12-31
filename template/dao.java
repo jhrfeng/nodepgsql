@@ -23,7 +23,7 @@ public interface ${className} {
 	/**
 	 * 功能：查看
 	 */
-	public ${entity} insert(${id} id);
+	public ${entity} findOne(${id} id);
 
 
 
